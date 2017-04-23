@@ -1,9 +1,12 @@
-# Eywa-dropbox
+# Eywa
+A collection of javascript drivers for varies of web services.
 
 Implemented following the API V2 http documentation here:
 https://www.dropbox.com/developers/documentation/http/documentation
 
 ## Usage
+
+### Dropbox
 
 Before you can use this, you need to first setup a test app on Dropbox, and generate an
 access token for test.
@@ -50,6 +53,10 @@ dp.download("/file_upload_folder_1/example.json")
 dp.search("you query here", path, start, max_results, mode)
 // where mode is one of [filename, filename_and_content, deleted_filename]
 ```
+
+### Github
+
+<!-- TODO -->
 
 ## Develop
 
