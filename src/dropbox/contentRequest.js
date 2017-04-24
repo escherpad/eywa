@@ -1,7 +1,8 @@
 /** Created by ge on 6/11/16. */
+
+"use strict";
 export default function contentRequest(access_token, method, url, arg,
                                        content = null) {
-  "use strict";
   var params = {};
   if (arg) params.arg = JSON.stringify(arg);
   params.authorization = "Bearer " + access_token;

@@ -1,8 +1,8 @@
 /** Created by ge on 6/11/16. */
 import "whatwg-fetch";
 
+"use strict";
 export default function rpcRequest(access_token, method, url, body=null) {
-  "use strict";
   var params = {};
   params.authorization = "Bearer " + access_token;
   // params.reject_cors_preflight = "true";

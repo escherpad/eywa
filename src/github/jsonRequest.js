@@ -1,8 +1,9 @@
 /** Created by ge on 6/11/16. */
 import "whatwg-fetch";
 
+"use strict";
 export default function jsonRequest(access_token, token_type, method = "get", url, params, data = null, no_parse = false) {
-  "use strict";
+
   if (!params) params = {};
   let paramString = Object.keys(params).map(key => {
     return key + "=" + params[key]
