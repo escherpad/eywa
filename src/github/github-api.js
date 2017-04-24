@@ -212,6 +212,5 @@ export default class GitHubApi {
     return this.contentRequest("get", "/repos/" + owner + "/" + repo + "/" + archive_format + "/" + ref)
   }
 
-
 };
 
