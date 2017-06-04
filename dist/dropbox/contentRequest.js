@@ -1,19 +1,13 @@
+/** Created by ge on 6/11/16. */
+
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = contentRequest;
-/** Created by ge on 6/11/16. */
-function contentRequest(access_token, method, url, arg) {
-  "use strict";
-
-  var content = arguments.length <= 4 || arguments[4] === undefined ? null : arguments[4];
+export default function contentRequest(access_token, method, url, arg, content = null) {
   var params = {};
   if (arg) params.arg = JSON.stringify(arg);
   params.authorization = "Bearer " + access_token;
 
-  var paramString = Object.keys(params).map(function (key) {
+  var paramString = Object.keys(params).map(key => {
     return key + "=" + params[key];
   }).join('&');
 

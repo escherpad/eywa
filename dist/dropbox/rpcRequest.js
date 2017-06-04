@@ -1,22 +1,14 @@
+/** Created by ge on 6/11/16. */
+import "whatwg-fetch";
+
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = rpcRequest;
-
-require("whatwg-fetch");
-
-function rpcRequest(access_token, method, url) {
-  "use strict";
-
-  var body = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+export default function rpcRequest(access_token, method, url, body = null) {
   var params = {};
   params.authorization = "Bearer " + access_token;
   // params.reject_cors_preflight = "true";
   /* for content-upload endpoints, use the params.args field to pass in
    /* a stringified arg payload. */
-  var paramString = Object.keys(params).map(function (key) {
+  var paramString = Object.keys(params).map(key => {
     return key + "=" + params[key];
   }).join('&');
   var option = {
@@ -31,7 +23,5 @@ function rpcRequest(access_token, method, url) {
     body: JSON.stringify(body)
   };
   var queryString = url + "?" + paramString;
-  return fetch(queryString, option).then(function (res) {
-    return res.json();
-  });
-} /** Created by ge on 6/11/16. */
+  return fetch(queryString, option).then(res => res.json());
+}

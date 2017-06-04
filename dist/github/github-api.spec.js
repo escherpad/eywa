@@ -1,23 +1,17 @@
-"use strict";
+import GitHubApi from "./github-api";
 
-var _githubApi = require("./github-api");
+// all of the tests below require OAuth to work.
+import { githubClientId as clientId, githubClientSecret, githubAccessToken as accessToken } from "../../test.config.js";
 
-var _githubApi2 = _interopRequireDefault(_githubApi);
-
-var _testConfig = require("../../test.config.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/** Created by ge on 6/7/16. */
 describe("gist operations", function () {
   "use strict";
 
-  var gh = new _githubApi2.default(_testConfig.githubClientId);
-  gh.updateAccessToken(_testConfig.githubAccessToken);
+  const gh = new GitHubApi(clientId);
+  gh.updateAccessToken(accessToken);
 
   it("can list all gists of current user", function (done) {
     // without specifying username, query the current user.
-    gh.listGists().then(function (data) {
+    gh.listGists().then(data => {
       console.log(data);
       done();
     });
@@ -25,16 +19,16 @@ describe("gist operations", function () {
 
   it("can list all gists of particular user", function (done) {
     // without specifying username, query the current user.
-    gh.listGists('episodeyang').then(function (data) {
+    gh.listGists('episodeyang').then(data => {
       console.log(data);
       done();
     });
   });
 
-  var history = void 0;
+  let history;
   it("can get gist by id", function (done) {
     // without specifying username, query the current user.
-    gh.getGist('05e5361bc727ba74d8d927e9f6530a7c').then(function (data) {
+    gh.getGist('05e5361bc727ba74d8d927e9f6530a7c').then(data => {
       console.log(data);
       history = data.history;
       expect(data.history).toBeDefined();
@@ -44,21 +38,21 @@ describe("gist operations", function () {
 
   it("can get gist by id and revision", function (done) {
     // without specifying username, query the current user.
-    gh.getGist('05e5361bc727ba74d8d927e9f6530a7c', history[3].version).then(function (data) {
+    gh.getGist('05e5361bc727ba74d8d927e9f6530a7c', history[3].version).then(data => {
       console.log(data);
       done();
     });
   });
 
-  var new_gist_id = void 0;
+  let new_gist_id;
   it("create a gist", function (done) {
     // without specifying username, query the current user.
-    var files = {
+    let files = {
       "test_file_1.md": { content: "#test file 1\nThis is the content of test file 1." },
       "test_file_2.md": { content: "#test file 2\nThis is the content of test file 2." }
     };
-    var description = "a test gits for `eywa` github driver";
-    gh.createGist(files, description, true).then(function (data) {
+    let description = "a test gits for `eywa` github driver";
+    gh.createGist(files, description, true).then(data => {
       console.log(data);
       expect(data.id).toBeDefined();
       new_gist_id = data.id;
@@ -68,12 +62,12 @@ describe("gist operations", function () {
 
   it("edit a gist", function (done) {
     // without specifying username, query the current user.
-    var files = {
+    let files = {
       "test_file_1.md": null,
       "test_file_2.md": { content: "#test file 2\nThis is the content of test file 2." }
     };
-    var description = "update this description";
-    gh.updateGist(new_gist_id, files, description).then(function (data) {
+    let description = "update this description";
+    gh.updateGist(new_gist_id, files, description).then(data => {
       console.log(data);
       done();
     });
@@ -81,20 +75,17 @@ describe("gist operations", function () {
 
   it("delete a gist", function (done) {
     // without specifying username, query the current user.
-    gh.deleteGist(new_gist_id).then(function (data) {
+    gh.deleteGist(new_gist_id).then(data => {
       done();
     });
   });
 });
 
-// all of the tests below require OAuth to work.
-
-
 describe("repository operations", function () {
   "use strict";
 
-  var gh = new _githubApi2.default(_testConfig.githubClientId);
-  gh.updateAccessToken(_testConfig.githubAccessToken);
+  let gh = new GitHubApi(clientId);
+  gh.updateAccessToken(accessToken);
 
   xit("can get account information", function (done) {
     // dp.getAccountInfo().then(data=> {
@@ -106,15 +97,15 @@ describe("repository operations", function () {
   });
 
   it("can get README.md file from root", function (done) {
-    gh.getContents('episodeyang', 'eywa-dropbox', '/README.md').then(function (data) {
+    gh.getContents('episodeyang', 'eywa-github', '/README.md').then(data => {
       // console.log(data);
       done();
     });
   });
 
-  var sha = void 0;
+  let sha;
   it("create new file in repository", function (done) {
-    gh.createFile('episodeyang', 'eywa-dropbox', '/test_folder/test_file.md', "test commit from eywa-github driver, create file", "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh").then(function (data) {
+    gh.createFile('episodeyang', 'eywa-github', '/test_folder/test_file.md', "test commit from eywa-github driver, create file", "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh").then(data => {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done();
@@ -124,7 +115,7 @@ describe("repository operations", function () {
   // note: might have a race condition with the create and delete function.
   it("update file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 2000;
-    gh.updateFile('episodeyang', 'eywa-dropbox', '/test_folder/test_file.md', "test commit from eywa-github driver, update file", "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==", sha).then(function (data) {
+    gh.updateFile('episodeyang', 'eywa-github', '/test_folder/test_file.md', "test commit from eywa-github driver, update file", "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==", sha).then(data => {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done();
@@ -133,7 +124,7 @@ describe("repository operations", function () {
 
   it("delete file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 2000;
-    gh.deleteFile('episodeyang', 'eywa-dropbox', '/test_folder/test_file.md', "test commit from eywa-github driver, delete file", sha).then(function (data) {
+    gh.deleteFile('episodeyang', 'eywa-github', '/test_folder/test_file.md', "test commit from eywa-github driver, delete file", sha).then(data => {
       done();
     });
   });
