@@ -99,7 +99,7 @@ describe("repository operations", function () {
 
 
   it("can get README.md file from root", function (done) {
-    gh.getContents('episodeyang', 'eywa-dropbox', '/README.md').then(data => {
+    gh.getContents('episodeyang', 'eywa-github', '/README.md').then(data => {
       // console.log(data);
       done()
     });
@@ -107,7 +107,7 @@ describe("repository operations", function () {
 
   let sha;
   it("create new file in repository", function (done) {
-    gh.createFile('episodeyang', 'eywa-dropbox',
+    gh.createFile('episodeyang', 'eywa-github',
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, create file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh"
@@ -121,7 +121,7 @@ describe("repository operations", function () {
   // note: might have a race condition with the create and delete function.
   it("update file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.updateFile('episodeyang', 'eywa-dropbox',
+    gh.updateFile('episodeyang', 'eywa-github',
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, update file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==",
@@ -135,7 +135,7 @@ describe("repository operations", function () {
 
   it("delete file in repository", function(done){
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.deleteFile('episodeyang', 'eywa-dropbox',
+    gh.deleteFile('episodeyang', 'eywa-github',
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, delete file",
       sha
