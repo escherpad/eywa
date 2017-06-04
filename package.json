@@ -1,6 +1,6 @@
 {
   "name": "eywa",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A cross backend driver for Dropbox, GitHub, Jupyter Kernels, Google Drive",
   "main": "dist/index.js",
   "dependencies": {
