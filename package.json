@@ -1,8 +1,8 @@
 {
-  "name": "eywa-dropbox",
-  "version": "1.12.0",
-  "description": "a dropbox file sync driver for the browser",
-  "main": "dist/dropbox/dropbox-api.js",
+  "name": "eywa",
+  "version": "2.0.0",
+  "description": "A cross backend driver for Dropbox, GitHub, Jupyter Kernels, Google Drive",
+  "main": "dist/index.js",
   "dependencies": {
     "uuid": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
