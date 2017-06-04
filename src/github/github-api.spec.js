@@ -1,4 +1,3 @@
-/** Created by ge on 6/7/16. */
 import GitHubApi from "./github-api";
 
 // all of the tests below require OAuth to work.
@@ -7,7 +6,7 @@ import {githubClientId as clientId, githubClientSecret, githubAccessToken as acc
 describe("gist operations", function () {
   "use strict";
 
-  let gh = new GitHubApi(clientId);
+  const gh = new GitHubApi(clientId);
   gh.updateAccessToken(accessToken);
 
   it("can list all gists of current user", function (done) {

@@ -12,8 +12,8 @@ Before you can use this, you need to first setup a test app on Dropbox, and gene
 access token for test.
 
 Two helper functions are included to help with the OAuth2 process:
-- requestAccessToken: a function that opens a new browser window for the Authorization.
-- parseTokenQueryString: a parser that makes it easy to parse the parameters in the
+- `requestAccessToken`: a function that opens a new browser window for the Authorization.
+- `parseTokenQueryString`: a parser that makes it easy to parse the parameters in the
 redirect url.
 
 After you have done these, you can use `eywa-dropbox` as below:
@@ -56,11 +56,42 @@ dp.search("you query here", path, start, max_results, mode)
 
 ### Github
 
-<!-- TODO -->
+```javascript
+import GitHubAPI from 'eywa/github';
+
+const clientId="this is your client Id from GitHub";
+const accessToken="here is your access token from GitHub";
+
+const gh = new GitHubAPI(clientId);
+gh.updateAccessToken(accessToken);
+
+
+gh.listGists().then(data=>{
+    console.log(data) // this should give your a list of gitsts.
+})
+// etc.
+```
 
 ## Develop
 
-To test, run karma. I'm using webstorm's karma integration to run the tests.
+### setting up OAuth credentials
+
+The credentials are setup inside `./test.config.js`. You can make a copy of the `./test.config.js.example` and start from there.
+
+### Using Karma
+
+To test, run karma. I'm using `webstorm`'s karma integration to run the tests.
+**Alternatively**, you can do: 
+
+```shell
+# in shell session A
+npm run karma-start
+
+# then in shell session B
+npm run test
+```
+
+### Why Test Across Browsers?
 
 During development, it is important to test across major browser vendors, because some of
 the transport configurations are browser specific. For example, Chrome handles CORS headers
@@ -70,16 +101,4 @@ However, if you set Karma to use three browsers, the test might conflict with ea
 I haven't updated the test to support simultaneous test (with multiple browsers) yet, so
 for now you should manually change the karma config file to go through different browsers
 manually.
-
-**Currently Not Working**
-You can also use
-```shell
-# in shell session A
-npm run karma-start
-
-# then in shell session B
-npm run test
-```
-
-to execute the tests.
 
