@@ -74,6 +74,12 @@ gh.listGists().then(data=>{
 
 ## Develop
 
+## Install Babel, Karma etc globally
+if you haven't done so:
+```bash
+npm install -g babel-cli, karma
+```
+
 ### setting up OAuth credentials
 
 The credentials are setup inside `./test.config.js`. You can make a copy of the `./test.config.js.example` and start from there.
