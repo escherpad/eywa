@@ -1,7 +1,11 @@
 import GitHubApi from "./github-api";
 
 // all of the tests below require OAuth to work.
-import {githubClientId as clientId, githubClientSecret, githubAccessToken as accessToken} from "../../test.config.js";
+import {githubClientId as clientId,
+    githubClientSecret,
+    githubAccessToken as accessToken,
+   githubClientUsername as username,
+   testRepoName} from "../../test.config.js";
 
 describe("gist operations", function () {
   "use strict";
@@ -106,7 +110,7 @@ describe("repository operations", function () {
 
   let sha;
   it("create new file in repository", function (done) {
-    gh.createFile('episodeyang', 'eywa-github',
+    gh.createFile(username, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, create file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh"
@@ -114,13 +118,16 @@ describe("repository operations", function () {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done()
+    }).catch(error => {
+      console.log(error);
+      fail()
     });
   });
 
   // note: might have a race condition with the create and delete function.
   it("update file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.updateFile('episodeyang', 'eywa-github',
+    gh.updateFile(username, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, update file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==",
@@ -129,19 +136,25 @@ describe("repository operations", function () {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done()
+    }).catch(error => {
+      console.log(error);
+      fail()
     });
   });
 
   it("delete file in repository", function(done){
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.deleteFile('episodeyang', 'eywa-github',
+    console.log(sha)
+    gh.deleteFile(username, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, delete file",
       sha
     ).then(data => {
       done()
+    }).catch(error => {
+      console.log(error);
+      fail()
     });
-
   })
 
 
