@@ -4,7 +4,6 @@ export const dropboxAccessToken = "your access token";
 
 export const githubClientId = "you app id";
 export const githubClientSecret = "you client secret";
-export const githubClientUsername = "you github username";
 
 /** this is the only token you need to run the tests.
  * To get this token, go to your github personal access tokens page via this link:
@@ -16,3 +15,6 @@ export const githubAccessToken = "your access token";
  * Make Sure the test repo exists under the given username
  */
 export const testRepoName = "repo name"
+export const testGithubClientUsername = "your github username";
+export const testPublicRepo = "public repo to test";
+export const testPrivateRepo = "private repo to test";
