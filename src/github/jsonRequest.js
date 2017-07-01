@@ -18,5 +18,10 @@ export default function jsonRequest(access_token, token_type, method = "get", ur
   };
   if (data) option.body = JSON.stringify(data);
   return fetch(url + "?" + paramString, option)
-    .then(res => no_parse ? res : res.json());
+      .then(response => {
+          if (!response.ok) {
+              throw Error(response.statusText);
+          }
+          return response
+      }).then(res => no_parse ? res : res.json())
 }
