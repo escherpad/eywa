@@ -151,12 +151,25 @@ describe("repository operations", function () {
   })
 
     it("list repo of given owner", function(done) {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
     gh.listRepos(username)
         .then(data => {
             expect(data.length > 0).toBe(true);
             expect(data[0].id).toBeDefined();
             done();
     });
+    })
+
+    // use my homepage
+    let repo = "jam-world.github.io"
+    let path = "/"
+    it("list file in the given repo for given owner", function(done) {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+        gh.listFile(username, repo, path)
+            .then(data => {
+              expect(data.length > 0).toBe(true);
+              expect(data[0].type).toBeDefined();
+              done();
+            })
     })
 });
