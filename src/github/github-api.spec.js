@@ -4,8 +4,10 @@ import GitHubApi from "./github-api";
 import {githubClientId as clientId,
     githubClientSecret,
     githubAccessToken as accessToken,
-   githubClientUsername as username,
-   testRepoName} from "../../test.config.js";
+        testRepoName,
+        testGithubClientUsername as testUsername,
+        testPublickRepo,
+        testPrivateRepo} from "../../test.config.js";
 
 describe("gist operations", function () {
   "use strict";
@@ -110,7 +112,7 @@ describe("repository operations", function () {
 
   let sha;
   it("create new file in repository", function (done) {
-    gh.createFile(username, testRepoName,
+    gh.createFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, create file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh"
@@ -124,7 +126,7 @@ describe("repository operations", function () {
   // note: might have a race condition with the create and delete function.
   it("update file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.updateFile(username, testRepoName,
+    gh.updateFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, update file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==",
@@ -137,7 +139,7 @@ describe("repository operations", function () {
   });
   it("delete file in repository", function(done){
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.deleteFile(username, testRepoName,
+    gh.deleteFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, delete file",
       sha
@@ -152,7 +154,7 @@ describe("repository operations", function () {
 
     it("list repo of given owner", function(done) {
         jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.listRepos(username)
+    gh.listRepos(testUsername)
         .then(data => {
             expect(data.length > 0).toBe(true);
             expect(data[0].id).toBeDefined();
@@ -161,11 +163,20 @@ describe("repository operations", function () {
     })
 
     // use my homepage
-    let repo = "jam-world.github.io"
     let path = "/"
-    it("list file in the given repo for given owner", function(done) {
+    it("list file in public repo", function(done) {
         jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-        gh.listFile(username, repo, path)
+        gh.listFile(testUsername, testPublickRepo, path)
+            .then(data => {
+              expect(data.length > 0).toBe(true);
+              expect(data[0].type).toBeDefined();
+              done();
+            })
+    })
+
+    it("list file in private repo", function(done) {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+        gh.listFile(testUsername, testPrivateRepo, path)
             .then(data => {
               expect(data.length > 0).toBe(true);
               expect(data[0].type).toBeDefined();
