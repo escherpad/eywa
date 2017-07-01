@@ -15,6 +15,6 @@ export const githubAccessToken = "your access token";
  * Make Sure the test repo exists under the given username
  */
 export const testRepoName = "repo name"
-export const testGithubClientUsername = "your github username";
+export const testGithubUsername = "your github username";
 export const testPublicRepo = "public repo to test";
 export const testPrivateRepo = "private repo to test";

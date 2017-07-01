@@ -5,7 +5,7 @@ import {githubClientId as clientId,
     githubClientSecret,
     githubAccessToken as accessToken,
         testRepoName,
-        testGithubClientUsername as testUsername,
+        testGithubUsername as testUsername,
         testPublickRepo,
         testPrivateRepo} from "../../test.config.js";
 
