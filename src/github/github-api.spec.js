@@ -1,7 +1,13 @@
 import GitHubApi from "./github-api";
 
 // all of the tests below require OAuth to work.
-import {githubClientId as clientId, githubClientSecret, githubAccessToken as accessToken} from "../../test.config.js";
+import {githubClientId as clientId,
+    githubClientSecret,
+    githubAccessToken as accessToken,
+        testRepoName,
+        testGithubUsername as testUsername,
+        testPublickRepo,
+        testPrivateRepo} from "../../test.config.js";
 
 describe("gist operations", function () {
   "use strict";
@@ -106,7 +112,7 @@ describe("repository operations", function () {
 
   let sha;
   it("create new file in repository", function (done) {
-    gh.createFile('episodeyang', 'eywa-github',
+    gh.createFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, create file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEh"
@@ -120,7 +126,7 @@ describe("repository operations", function () {
   // note: might have a race condition with the create and delete function.
   it("update file in repository", function (done) {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.updateFile('episodeyang', 'eywa-github',
+    gh.updateFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, update file",
       "IyBFeXdhLUdpdEh1YiBUZXN0IEZpbGUNCg0KLSB0aGlzIHdvcmtzIQ0KLSB0aGlzIHdvcmtzISEhDQoNClRoaXMgaXMgYWRkZWQgYnkgdGhlIGZpbGUgdXBkYXRlIGNvbW1hbmQuDQoNCi0gR2UgWWFuZw==",
@@ -131,18 +137,50 @@ describe("repository operations", function () {
       done()
     });
   });
-
   it("delete file in repository", function(done){
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    gh.deleteFile('episodeyang', 'eywa-github',
+    gh.deleteFile(testUsername, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, delete file",
       sha
-    ).then(data => {
-      done()
+    ).then(res=> {
+      if (res.ok) {
+        done()
+      } else {
+          throw Error('delete failed')
+      }
     });
-
   })
 
+    it("list repo of given owner", function(done) {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+    gh.listRepos(testUsername)
+        .then(data => {
+            expect(data.length > 0).toBe(true);
+            expect(data[0].id).toBeDefined();
+            done();
+    });
+    })
 
+    // use my homepage
+    let path = "/"
+    it("list file in public repo", function(done) {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+        gh.listFile(testUsername, testPublickRepo, path)
+            .then(data => {
+              expect(data.length > 0).toBe(true);
+              expect(data[0].type).toBeDefined();
+              done();
+            })
+    })
+
+    it("list file in private repo", function(done) {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+        gh.listFile(testUsername, testPrivateRepo, path)
+            .then(data => {
+              expect(data.length > 0).toBe(true);
+              expect(data[0].type).toBeDefined();
+              done();
+            })
+    })
 });

@@ -212,5 +212,12 @@ export default class GitHubApi {
     return this.contentRequest("get", "/repos/" + owner + "/" + repo + "/" + archive_format + "/" + ref)
   }
 
+  listRepos(username) {
+      return this.request("get", "/users/" + username + "/repos", null, null, false)
+  }
+
+  listFile(username, repo, path) {
+    return this.request("get", "/repos/" + username + "/" + repo + "/contents/" + path, null, null, false)
+  }
 };
 
