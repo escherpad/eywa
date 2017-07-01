@@ -118,9 +118,6 @@ describe("repository operations", function () {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done()
-    }).catch(error => {
-      console.log(error);
-      fail()
     });
   });
 
@@ -136,26 +133,20 @@ describe("repository operations", function () {
       expect(data.content.sha).toBeDefined();
       sha = data.content.sha;
       done()
-    }).catch(error => {
-      console.log(error);
-      fail()
     });
   });
-
   it("delete file in repository", function(done){
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
-    console.log(sha)
     gh.deleteFile(username, testRepoName,
       '/test_folder/test_file.md',
       "test commit from eywa-github driver, delete file",
       sha
-    ).then(data => {
-      done()
-    }).catch(error => {
-      console.log(error);
-      fail()
+    ).then(res=> {
+      if (res.ok) {
+        done()
+      } else {
+          throw Error('delete failed')
+      }
     });
   })
-
-
 });
