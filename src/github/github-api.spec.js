@@ -149,4 +149,14 @@ describe("repository operations", function () {
       }
     });
   })
+
+    it("list repo of given owner", function(done) {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL= 2000;
+    gh.listRepos(username)
+        .then(data => {
+            expect(data.length > 0).toBe(true);
+            expect(data[0].id).toBeDefined();
+            done();
+    });
+    })
 });
