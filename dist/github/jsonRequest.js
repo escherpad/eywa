@@ -29,7 +29,9 @@ function jsonRequest(access_token, token_type) {
     }
   };
   if (data) option.body = JSON.stringify(data);
-  return fetch(url + "?" + paramString, option).then(function (res) {
+  return fetch(url + "?" + paramString, option
+  // NOTE: fetch will always success whenever the connection success
+  ).then(function (res) {
     return no_parse ? res : res.json();
   });
 }
